@@ -6,3 +6,6 @@ __pycache__
 *.mp4
 *.ply
 SIBR_viewers/build
+docker/.env
+docker/build.log
+docker/Dockerfile.bak_*
