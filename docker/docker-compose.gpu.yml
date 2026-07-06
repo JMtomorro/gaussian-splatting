@@ -1,0 +1,9 @@
+# Merge with base compose:
+#   docker compose -f docker/docker-compose.yml -f docker/docker-compose.gpu.yml run --rm gs bash
+
+services:
+  gs:
+    gpus: all
+    environment:
+      NVIDIA_VISIBLE_DEVICES: ${NVIDIA_VISIBLE_DEVICES:-all}
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility

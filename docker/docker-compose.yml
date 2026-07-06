@@ -1,0 +1,29 @@
+# Usage (from repo root project/gaussian-splatting):
+#   cp docker/.env.example docker/.env
+#   docker compose -f docker/docker-compose.yml -f docker/docker-compose.gpu.yml build
+#   docker compose -f docker/docker-compose.yml -f docker/docker-compose.gpu.yml run --rm gs bash
+#
+# Train example (inside container):
+#   python train.py -s /data/nerf_synthetic/lego -m output/lego --eval -w
+
+services:
+  gs:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      network: host
+    image: gaussian-splatting:cu128
+    network_mode: host
+    environment:
+      TORCH_HOME: /root/.cache/torch
+      HF_HOME: /root/.cache/huggingface
+      NVIDIA_VISIBLE_DEVICES: ${NVIDIA_VISIBLE_DEVICES:-all}
+    volumes:
+      - ..:/workspace/gaussian-splatting
+      - ${GS_DATA}:/data
+      - ${GS_OUTPUT}:/workspace/gaussian-splatting/output
+      - ${GS_CACHE}:/root/.cache
+    working_dir: /workspace/gaussian-splatting
+    stdin_open: true
+    tty: true
+    shm_size: "16gb"

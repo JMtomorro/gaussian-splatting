@@ -1,0 +1,8 @@
+.git
+.gitmodules
+output
+*.pyc
+__pycache__
+*.mp4
+*.ply
+SIBR_viewers/build
